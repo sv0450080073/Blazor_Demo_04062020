@@ -1,0 +1,59 @@
+﻿@using Service
+@using Models
+@using QLSV.Components
+@inject IClassService IClassService
+
+<h3 class=""> <strong><u>Lớp học</u></strong></h3>
+<p class="">Số lần click: <span style="color:red;">@Count01_01</span></p>
+<div class="row">
+    <div class="form-group">
+        <select class="form-control" @onchange="@SelectClass_Change">
+            @if (_DataClass != null && _DataClass.Count > 0)
+            {
+                foreach (var item in _DataClass)
+                {
+                    <option value="@item.ID">@item.ClassName</option>
+                }
+            }
+            else
+            {
+                <option>--Không có dữ liệu--</option>
+
+            }
+        </select>
+    </div>
+</div>
+<p></p>
+
+    <StudentCompo Class_ID="@_Class_ID" Count01="Count01_Change" />
+
+
+@code {
+    private List<Class> _DataClass;
+    private int _Class_ID;
+    [Parameter]
+    public int School_ID { get; set; }
+
+    protected override void OnInitialized()
+    {
+        _DataClass = (List<Class>)IClassService.GetClassesBySchool_ID(School_ID);
+        _Class_ID = _DataClass.Count > 0 && _DataClass != null ? _DataClass[0].ID : 0;
+    }
+    protected override void OnParametersSet()
+    {
+        _DataClass = (List<Class>)IClassService.GetClassesBySchool_ID(School_ID);
+        _Class_ID = _DataClass.Count > 0 && _DataClass != null ? _DataClass[0].ID : 0;
+    }
+    public void SelectClass_Change(ChangeEventArgs e)
+    {
+        _Class_ID = int.Parse(e.Value.ToString());
+    }
+
+    protected int Count01_01 { get; set; } = 0;
+
+    protected void Count01_Change(int Count01)
+    {
+        Count01_01 = Count01;
+    }
+
+}

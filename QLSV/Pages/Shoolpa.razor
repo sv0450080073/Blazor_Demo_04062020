@@ -1,0 +1,53 @@
+﻿@page "/School"
+@using QLSV.Validation
+@inherits SchoolBase
+
+<h3 class="tieude">Danh sách trường học </h3>
+
+<button class="btn btn-outline-success  btn-Add" type="button" @onclick="@Button_Click">@ButtonText</button>
+
+<div class="@CssClass">
+    <EditForm Model="Model" OnValidSubmit="AddSchool">
+        <FluentValidator TValidator="SchoolValidator" />
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="inputEmail4">Tên trường:</label>
+                <InputText placeholder="Nhập tên trường học" @bind-Value="Model.ShoolName" class="form-control" @onkeyup="DoTheThing"  />
+                <ValidationMessage For="@(() => Model.ShoolName)" />
+            </div>          
+        </div>
+        <div class="row col-md-6">
+            <div class="col text-center">
+                <button class="btn btn-success">Gửi</button>
+            </div>
+        </div>
+    </EditForm>
+</div>
+<p style="margin-top:10px;margin-bottom:10px;"></p>
+<div class="row">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID_Trường</th>
+                <th>Tên trường học</th>
+                <th colspan="2">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (_Schools != null && _Schools.Count > 0)
+            {
+                @foreach (var item in _Schools)
+                {
+                    <tr>
+                        <td>@item.ID</td>
+                        <td>@item.ShoolName</td>
+                        <td>
+                            <a href="/EditSchool/@item.ID"><button class="btn btn-outline-warning" type="button">Edit</button></a>
+                            <button class="btn btn-outline-danger" type="button" @onclick="@(e=>DeleteSchool(item.ID))">Delete</button>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,87 @@
+﻿@page "/Student"
+
+@using QLSV.Validation
+@inherits StudentBase
+
+<h3 class="tieude">Danh sách học sinh </h3>
+<table width="100%" style="background:#05163D;color:honeydew">
+    <tr>
+        <td width="20"> </td>
+        <td>
+            <h2> Add New Student Details</h2>
+        </td>
+        <td> </td>
+        <td align="right">
+            <button class="btn btn-info" @onclick="@AddStudent">Thêm mới</button>
+        </td>
+        <td width="10"> </td>
+    </tr>
+    <tr>
+        <td colspan="2"></td>
+    </tr>
+</table>
+<EditForm Model="Model">
+    <FluentValidator TValidator="StudentValidator" />
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="inputPassword4">Tên lớp</label>
+            <CustomInputSelect @bind-Value="Model.Class_ID" class="form-control">
+                @if (_Class != null)
+                {
+                    <option selected="selected">--Chọn trường học--</option>
+                    @foreach (var item in _Class)
+                    {
+                        <option value="@item.ID">@item.ClassName </option>
+                    }
+
+                }
+                else
+                {
+                    <option selected="selected">--Không có dữ liệu--</option>
+                }
+
+            </CustomInputSelect>
+            <ValidationMessage For="@(() =>Model.Class_ID)" />
+        </div>
+        <div class="form-group col-md-6">
+            <label for="inputEmail4">Tên học sinh</label>
+            <InputText placeholder="Nhập tên lớp học" @bind-Value="Model.StudentName" class="form-control" />
+            <ValidationMessage For="@(() => Model.StudentName)" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col text-center">
+            <button type="submit" class="btn btn-success" @onclick="@(async () => await AddStudent())" style="width:220px;margin-bottom:10px;">Gửi</button>
+        </div>
+    </div>
+    
+        
+   
+</EditForm>
+<div class="row">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID học sinh</th>
+                <th>Tên học sinh</th>
+                <th colspan="2">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (_Student != null && _Student.Count > 0)
+            {
+                @foreach (var item in _Student)
+                {
+                    <tr>
+                        <td>@item.ID</td>
+                        <td>@item.StudentName</td>
+                        <td>
+                            <button @onclick="@AddStudent" class="btn btn-outline-success" type="button">Xóa</button>
+                            <button @onclick="@(async()=>await DeleteStudent(item.ID))" class="btn btn-outline-danger" type="button">Delete</button>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,46 @@
+﻿@page "/"
+@*@layout _Layout_Test  *@
+@using QLSV.Service
+@using QLSV.Components
+@using Models
+@inject ISchoolService  ISchoolService
+
+
+<h3 class=""> <strong><u>Trường học</u></strong></h3>
+<p style="margin-bottom:10px;margin-top:10px;"></p>
+<div class="row">
+    <div class="form-group">
+        <label>Trường học</label>
+        <select class="form-control" @onchange="@Select_Change">
+            @if (_DataSchool != null && _DataSchool.Count > 0)
+            {
+                @foreach (var item in _DataSchool)
+                {
+                    <option value="@item.ID">@item.ShoolName</option>
+                }
+            }
+            else
+            {
+                <option>--Không có giá trị--</option>
+            }
+        </select>
+    </div>
+</div>
+<p style="margin-bottom:10px;margin-top:10px;"></p>
+
+<ClassCompo School_ID="@_Shool_ID" />
+
+@code {
+    private List<School> _DataSchool;
+    private int _Shool_ID;
+
+    protected override void OnInitialized()
+    {
+        _DataSchool = (List<School>)ISchoolService.GetShools();
+        _Shool_ID = _DataSchool != null && _DataSchool.Count > 0 ? _DataSchool[0].ID : 0;
+    }
+    public void Select_Change(ChangeEventArgs e)
+    {
+        _Shool_ID = (int.Parse(e.Value.ToString()));
+    }
+}

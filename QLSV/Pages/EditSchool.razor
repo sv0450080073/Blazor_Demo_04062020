@@ -1,0 +1,45 @@
+﻿
+@page "/EditSchool/{id:int}"
+@using QLSV.Models
+@using QLSV.Service
+@using QLSV.Validation 
+@inject ISchoolService SchoolService
+
+<div class="">
+        <EditForm Model="Model" OnValidSubmit="EditSchool0">
+            <FluentValidator TValidator="SchoolValidator" />
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputEmail4">Tên trường:</label>
+                    <InputText placeholder="Nhập tên trường học" @bind-Value="Model.ShoolName" class="form-control" />
+                    <ValidationMessage For="@(() => Model.ShoolName)" />
+                </div>
+            </div>
+            <div class="row col-md-6">
+                <div class="col text-center">
+                    <button class="btn btn-success">Gửi</button>
+                </div>
+            </div>
+        </EditForm>
+</div>
+
+
+@code
+ {
+    [Parameter]
+    public int ID { get; set; }
+    public School Model = new School();
+
+    protected override void OnInitialized()
+    {
+        Model = SchoolService.GetSchool(ID);
+    }
+    public void EditSchool0()
+    {
+        if(Model !=null)
+        {
+            SchoolService.EditSchool(Model);
+        }   
+    }
+
+}

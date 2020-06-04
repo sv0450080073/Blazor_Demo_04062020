@@ -1,0 +1,68 @@
+﻿@page "/Class"
+@using FluentValidation;
+@using QLSV.Validation
+@inherits ClassBase
+
+<h3 class="tieude">Danh sách lớp học </h3>
+<button class="btn btn-outline-success btn-Add" @onclick="@Button_Click" type="button">@ButtonText</button>
+
+<div class="@CssClass">
+    <EditForm Model="Model" OnValidSubmit="AddClass">
+        <FluentValidator TValidator="ClassValidator" />
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="inputEmail4">Tên lớp</label>
+                <InputText placeholder="Nhập tên lớp học" @bind-Value="Model.ClassName" class="form-control" />
+                <ValidationMessage For="@(() => Model.ClassName)" />
+            </div>
+            <div class="form-group col-md-6">
+                <label for="inputPassword4">Tên trường</label>
+                <CustomInputSelect @bind-Value="Model.School_ID" class="form-control">
+                    <option selected="selected">--Chọn trường học--</option>
+                    @foreach (var item in Schools)
+                    {
+                        <option value="@item.ID">@item.ShoolName </option>
+                    }
+                </CustomInputSelect>
+
+                <ValidationMessage For="@(() =>Model.School_ID)" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+                <button class="btn btn-success">Gửi</button>
+            </div>
+        </div>
+
+    </EditForm>
+</div>
+<p style="margin-top:10px;margin-bottom:10px;"></p>  
+<div class="row">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID Lớp</th>
+                <th>Tên lớp học</th>
+                <th>Tên trường học</th>
+                <th colspan="2">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (_ClassViewModel != null && _ClassViewModel.Count > 0)
+            {
+                @foreach (var item in _ClassViewModel)
+                {
+                    <tr>
+                        <td>@item.ID</td>
+                        <td>@item.ClassName</td>
+                        <td>@item.SchoolName</td>
+                        <td>
+                            <button @onclick="@AddClass" class="btn btn-outline-warning" type="button">Edit</button>
+                            <button @onclick="@(e=>DeleteClassByID(item.ID))" class="btn btn-outline-danger" type="button">Delete</button>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

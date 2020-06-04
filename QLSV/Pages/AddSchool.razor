@@ -1,0 +1,16 @@
+﻿@page "/AddSchool"
+@inherits SchoolBase
+@* <EditForm Model="@Model" OnValidSubmit="AddSchool" OnInvalidSubmit="@HandleInvalidSubmit" >
+        <div class="alert @StatusClass">@StatusMessage</div>
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="input-group mb-3">
+            <InputText  @bind-Value="@Model.ShoolName"></InputText>
+            <input @bind="_TenTruong" type="text" class="form-control" placeholder="Nhập tên trường" @onkeyup="DoTheThing" />
+            <ValidationMessage For="@(() => Model.ShoolName)" />
+            <div class="input-group-append">
+                <button @onclick="AddSchool" class="btn btn-outline-success" type="button">Add</button>
+            </div>
+        </div>
+        <button type="submit">Ok</button>
+    </EditForm>*@
