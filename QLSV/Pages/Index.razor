@@ -27,20 +27,27 @@
     </div>
 </div>
 <p style="margin-bottom:10px;margin-top:10px;"></p>
+<CascadingValue Value="@School_Cascading">
+    <ClassCompo School_ID="@_Shool_ID" />
+</CascadingValue>
 
-<ClassCompo School_ID="@_Shool_ID" />
 
 @code {
     private List<School> _DataSchool;
     private int _Shool_ID;
+    //Cascading
+    protected int School_Cascading;
+
 
     protected override void OnInitialized()
     {
         _DataSchool = (List<School>)ISchoolService.GetShools();
         _Shool_ID = _DataSchool != null && _DataSchool.Count > 0 ? _DataSchool[0].ID : 0;
+        School_Cascading= _DataSchool != null && _DataSchool.Count > 0 ? _DataSchool[0].ID : 0;
     }
     public void Select_Change(ChangeEventArgs e)
     {
         _Shool_ID = (int.Parse(e.Value.ToString()));
+        School_Cascading = _Shool_ID;
     }
 }

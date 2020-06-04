@@ -18,11 +18,19 @@
             <div class="form-group col-md-6">
                 <label for="inputPassword4">Tên trường</label>
                 <CustomInputSelect @bind-Value="Model.School_ID" class="form-control">
-                    <option selected="selected">--Chọn trường học--</option>
-                    @foreach (var item in Schools)
+                    @if (Schools != null && Schools.Count > 0)
                     {
-                        <option value="@item.ID">@item.ShoolName </option>
+                        <option selected="selected">--Chọn trường học--</option>
+                        @foreach (var item in Schools)
+                        {
+                            <option value="@item.ID">@item.ShoolName </option>
+                        }
                     }
+                    else
+                    {
+                        <option selected="selected">--Không có dữ liệu--</option>
+                    }
+
                 </CustomInputSelect>
 
                 <ValidationMessage For="@(() =>Model.School_ID)" />

@@ -8,21 +8,36 @@
     <table>
         <thead>
             <tr>
+                <th>Tên trường</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@School_Cascading</td>
+            </tr>
+        </tbody>
+    </table>
+    <table>
+        <thead>
+            <tr>
+                
                 <th>ID_SV</th>
                 <th>Tên sinh viên</th>
             </tr>
         </thead>
         <tbody>
-            @if (_DataStudent.Count > 0 && _DataStudent != null)
+       
+        @if (_DataStudent.Count > 0 && _DataStudent != null)
+        {
+            @foreach (var item in _DataStudent)
             {
-                @foreach (var item in _DataStudent)
-                {
-                    <tr>
-                        <td><input type="text" @bind="item.ID" /></td>
-                        <td><input type="text" @bind="item.StudentName" /></td>
-                    </tr>
-                }
+            <tr>
+                
+                <td><input type="text" @bind="item.ID" /></td>
+                <td><input type="text" @bind="item.StudentName" /></td>
+            </tr>
             }
+        }
         </tbody>
     </table>
     <button class="btn btn-outline-info" @onclick="@Click_Count">Click CallBack</button>
@@ -36,6 +51,11 @@
     private List<Student> _DataStudent;
     [Parameter]
     public int Class_ID { get; set; }
+    //Cascading
+    [CascadingParameter]
+    protected int School_Cascading { get; set; }
+
+
 
     protected override void OnInitialized()
     {

@@ -17,8 +17,7 @@ namespace QLSV.Pages
         public IClassService ClassService { get; set; }
         [Inject]
         public IJSRuntime JsRuntime { get; set; }
-
-
+       
         public List<Student> _Student { get; set; }
         public List<Class> _Class { get; set; }
 
